@@ -1,0 +1,11 @@
+Accuracy: 0.8203
+Training time: 12.02 seconds
+
+              precision    recall  f1-score   support
+
+    Negative       0.84      0.79      0.81      1960
+    Positive       0.81      0.85      0.83      2040
+
+    accuracy                           0.82      4000
+   macro avg       0.82      0.82      0.82      4000
+weighted avg       0.82      0.82      0.82      4000

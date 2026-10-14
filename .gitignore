@@ -1,0 +1,17 @@
+
+.venv/
+__pycache__/
+*.py[cod]
+.env
+
+# Dataset files
+data/*.csv
+
+# Trained models (large files)
+models/*.pkl
+models/*.keras
+models/amazon_distilbert_model/
+
+# Generated reports: keep comparison chart, exclude CSV
+reports/*.csv
+!reports/model_comparison.csv

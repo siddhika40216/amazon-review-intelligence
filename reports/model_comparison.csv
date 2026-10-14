@@ -1,0 +1,4 @@
+Model,Accuracy,Precision,Recall,F1 Score,Evaluation Time (seconds)
+Logistic Regression,0.8645,0.858,0.8799,0.8688,0.89
+ANN,0.8202,0.8054,0.8539,0.8289,13.86
+DistilBERT,0.9338,0.9404,0.9289,0.9346,649.42

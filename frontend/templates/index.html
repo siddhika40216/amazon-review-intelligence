@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Review Intelligence</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="/" class="brand">
+            <span class="brand-mark">R</span>
+            <span>Review Intelligence</span>
+        </a>
+
+        <span class="nav-label">Sentiment Analysis</span>
+    </nav>
+
+    <main class="page">
+        <section class="intro">
+            <p class="breadcrumb">TOOLS / REVIEW ANALYSIS</p>
+            <h1>Review analyzer</h1>
+            <p class="intro-text">
+                Understand what customers think about a product.
+                Paste a review below to analyze its sentiment.
+            </p>
+        </section>
+
+        <section class="workspace">
+            <div class="section-heading">
+                <div>
+                    <h2>Analyze a review</h2>
+                    <p>Enter the review text you want to evaluate.</p>
+                </div>
+                <span class="model-tag">DistilBERT model</span>
+            </div>
+
+            <form method="POST">
+                <label for="review">Review text</label>
+
+                <textarea
+                    id="review"
+                    name="review"
+                    rows="7"
+                    maxlength="10000"
+                    placeholder="For example: The product is well made and works exactly as described..."
+                    required
+                >{{ review }}</textarea>
+
+                <div class="input-footer">
+                    <span>Use the full review for a more useful analysis.</span>
+                    <span id="char-count">0 / 10000</span>
+                </div>
+
+                <button type="submit">
+                    Analyze sentiment
+                    <span aria-hidden="true">→</span>
+                </button>
+            </form>
+
+            {% if error %}
+                <div class="message error" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            {% if sentiment %}
+                <section class="result-card" aria-live="polite">
+                    <div class="result-top">
+                        <div>
+                            <p class="eyebrow">ANALYSIS RESULT</p>
+                            <h2 class="{{ sentiment | lower }}">
+                                {{ sentiment }}
+                            </h2>
+                        </div>
+
+                        <span class="result-indicator {{ sentiment | lower }}">
+                            {% if sentiment == "Positive" %}
+                                Positive sentiment
+                            {% else %}
+                                Negative sentiment
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <div class="confidence-row">
+                        <span>Model confidence</span>
+                        <strong>{{ "%.2f"|format(confidence|float) }}%</strong>
+                    </div>
+
+                    <div class="progress-track">
+                        <div
+                            class="progress-fill {{ sentiment | lower }}"
+                            style="width: {{ confidence }}%">
+                        </div>
+                    </div>
+
+                    <p class="result-note">
+                        Prediction generated using the trained DistilBERT
+                        sentiment classification model.
+                    </p>
+                </section>
+            {% endif %}
+        </section>
+
+        <section class="about">
+            <h3>About this analysis</h3>
+            <p>
+                This tool uses a fine-tuned transformer model to classify
+                product reviews as positive or negative. The prediction
+                reflects the model's output and may not capture every nuance
+                of a review.
+            </p>
+        </section>
+
+        <footer>
+            <span>Review Intelligence</span>
+            <span>Machine Learning · Natural Language Processing</span>
+        </footer>
+    </main>
+
+    <script>
+        const reviewInput = document.getElementById("review");
+        const charCount = document.getElementById("char-count");
+
+        function updateCharacterCount() {
+            charCount.textContent =
+                `${reviewInput.value.length} / 10000`;
+        }
+
+        reviewInput.addEventListener("input", updateCharacterCount);
+        updateCharacterCount();
+    </script>
+</body>
+</html>
